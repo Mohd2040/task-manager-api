@@ -21,10 +21,8 @@ It features complete **CI/CD automation** using **GitHub Actions** and **Heroku 
 
 ## 🚀 Live Deployment
 
-🔗 **URL:** `https://your-app-name.herokuapp.com`
-
-> Replace `your-app-name` with your actual Heroku app name
-
+🔗 **URL:** `https://Mohd2040.herokuapp.com`
+🔗 **URL:** `https://task-manager-api1-7676321afe5a.herokuapp.com/`
 ---
 
 ## 🛠️ Tech Stack
@@ -58,5 +56,5 @@ It features complete **CI/CD automation** using **GitHub Actions** and **Heroku 
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/task-manager-api.git
+git clone https://github.com/Mohd2040/task-manager-api.git
 cd task-manager-api
