@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 app.use("/api/tasks", require("./routes/tasks"));
 
-const PORT = process.env.PORT || 5000;
+console.log("🌐 ENV MONGO_URI:", process.env.MONGO_URI ? "✅ Exists" : "❌ Missing");
 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -25,4 +25,5 @@ mongoose.connect(process.env.MONGO_URI, {
     console.error("❌ Failed to connect to MongoDB", err);
 });
 
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
