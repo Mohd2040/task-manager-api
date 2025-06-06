@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Task Manager API</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+    .container { padding-top: 40px; }
+    h1 { color: #0d6efd; }
+    table i { font-size: 18px; color: #198754; }
+  </style>
+</head>
+<body>
+  <div class="container text-center">
+    <h1>🧩 Task Manager API</h1>
+    <p class="lead">A simple REST API to manage your tasks – powered by Node.js, Express, and MongoDB.</p>
+    
+    <hr />
+
+    <h3 class="mt-5">🧪 API Endpoints</h3>
+    <table class="table table-bordered table-hover mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>Method</th>
+          <th>Endpoint</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><i class="bi bi-box-arrow-in-down-right text-primary"></i> GET</td>
+          <td>/api/tasks</td>
+          <td>Fetch all tasks</td>
+        </tr>
+        <tr>
+          <td><i class="bi bi-plus-circle text-success"></i> POST</td>
+          <td>/api/tasks</td>
+          <td>Create a new task</td>
+        </tr>
+        <tr>
+          <td><i class="bi bi-search text-info"></i> GET</td>
+          <td>/api/tasks/:id</td>
+          <td>Fetch a task by ID</td>
+        </tr>
+        <tr>
+          <td><i class="bi bi-pencil-square text-warning"></i> PUT</td>
+          <td>/api/tasks/:id</td>
+          <td>Update task by ID</td>
+        </tr>
+        <tr>
+          <td><i class="bi bi-trash text-danger"></i> DELETE</td>
+          <td>/api/tasks/:id</td>
+          <td>Delete task by ID</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="mt-4">
+      <a href="https://github.com/Mohd2040/task-manager-api" target="_blank" class="btn btn-dark">
+        View on GitHub
+      </a>
+    </p>
+  </div>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</body>
+</html>
