@@ -21,7 +21,6 @@ It features complete **CI/CD automation** using **GitHub Actions** and **Heroku 
 
 ## 🚀 Live Deployment
 
-🔗 **URL:** `https://Mohd2040.herokuapp.com`
 🔗 **URL:** `https://task-manager-api1-7676321afe5a.herokuapp.com/`
 ---
 
