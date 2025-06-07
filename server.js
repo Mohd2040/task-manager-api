@@ -5,6 +5,16 @@ const app = express();
 app.use(express.static('public')); 
 app.use(express.json());
 
+
+const MONGO_URI = process.env.MONGO_URI;
+console.log("🌐 ENV MONGO_URI:", MONGO_URI ? "✅ OK" : "❌ Missing");
+
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("❌ Failed to connect to MongoDB", err));
+
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
