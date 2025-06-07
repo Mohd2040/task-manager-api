@@ -13,6 +13,10 @@ console.log("🌐 ENV MONGO_URI:", MONGO_URI ? "✅ OK" : "❌ Missing");
 app.use(express.static('public')); // ملفات ثابتة مثل HTML, CSS
 app.use(express.json()); // تحليل البيانات المرسلة بـ JSON
 
+// ✅ تعريف مسارات API بعد تحميل ملفات المسارات
+//   هذه هي الإضافة المهمة، بحيث يتم تحميل مسارات المهام API من ملف خارجي 'routes/tasks.js'
+app.use("/api/tasks", require("./routes/tasks"));
+
 // ✅ الاتصال بـ MongoDB
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -29,6 +33,3 @@ mongoose.connect(MONGO_URI, {
 .catch(err => {
   console.error("❌ Failed to connect to MongoDB", err);
 });
-
-// ✅ تعريف المسارات
-app.use("/api/tasks", require("./routes/tasks"));
