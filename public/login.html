@@ -1,37 +1,54 @@
+<!-- public/login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
+  <style>
+    body { font-family: Arial; max-width: 400px; margin: auto; padding-top: 60px; }
+    input, button { width: 100%; padding: 10px; margin: 8px 0; }
+    #error { color: red; }
+  </style>
 </head>
 <body>
-  <h2>Login to Your Account</h2>
+  <h2>Login</h2>
   <form id="loginForm">
-    <input type="email" id="email" placeholder="Email" required /><br>
-    <input type="password" id="password" placeholder="Password" required /><br>
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
     <button type="submit">Login</button>
+    <p id="error"></p>
   </form>
 
-  <p id="message"></p>
-
   <script>
-    const form = document.getElementById("loginForm");
-
-    form.addEventListener("submit", async (e) => {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
       try {
-        const res = await fetch("https://task-manager-api1-7676321afe5a.herokuapp.com/api/auth/login", {
+        const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
 
         const data = await res.json();
-        const message = document.getElementById("message");
 
-        if (res.ok) {
-          message.in
+        if (!res.ok) {
+          document.getElementById("error").textContent = data.error || "Login failed.";
+        } else {
+          // ✅ تخزين التوكن وبيانات المستخدم في localStorage
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user));
+
+          // 🔁 توجيه المستخدم إلى صفحة المهام
+          window.location.href = "/tasks.html";
+        }
+      } catch (err) {
+        document.getElementById("error").textContent = "❌ Error connecting to server.";
+      }
+    });
+  </script>
+</body>
+</html>
