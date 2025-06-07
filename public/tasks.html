@@ -1,72 +1,40 @@
-<!-- public/tasks.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Your Tasks</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tasks Manager</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding-top: 40px; }
-    h2 { margin-bottom: 20px; }
-    #tasks { margin-top: 20px; }
-    .task {
-      border: 1px solid #ccc;
-      padding: 12px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-    }
-    .task span {
-      display: block;
-      font-size: 14px;
-      color: #555;
-    }
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { text-align: center; }
+    #task-form { margin-bottom: 20px; }
+    #tasks-list { list-style: none; padding: 0; }
+    #tasks-list li { padding: 10px; border-bottom: 1px solid #ccc; }
+    .task-title { font-weight: bold; }
+    .task-desc { font-style: italic; }
+    button { margin-left: 10px; }
   </style>
 </head>
 <body>
-  <h2>📝 Your Tasks</h2>
-  <div id="tasks">Loading...</div>
 
-  <script>
-    async function loadTasks() {
-      const token = localStorage.getItem("token");
+  <h1>My Tasks</h1>
 
-      if (!token) {
-        alert("You are not logged in");
-        return (window.location.href = "/login.html");
-      }
+  <!-- Form to add a new task -->
+  <form id="task-form">
+    <input type="text" id="title" placeholder="Task title" required />
+    <input type="text" id="description" placeholder="Task description" required />
+    <select id="priority" required>
+      <option value="" disabled selected>Priority</option>
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+    <button type="submit">Add Task</button>
+  </form>
 
-      try {
-        const res = await fetch("/api/tasks", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  <!-- List of tasks -->
+  <ul id="tasks-list"></ul>
 
-        const data = await res.json();
-
-        if (!res.ok) {
-          document.getElementById("tasks").innerHTML = `<p style="color:red;">${data.error}</p>`;
-          return;
-        }
-
-        if (data.length === 0) {
-          document.getElementById("tasks").innerHTML = `<p>No tasks found.</p>`;
-          return;
-        }
-
-        document.getElementById("tasks").innerHTML = data.map(task => `
-          <div class="task">
-            <strong>${task.title}</strong>
-            <span>${task.description}</span>
-            <span>Type: ${task.type} | Priority: ${task.priority}</span>
-          </div>
-        `).join("");
-
-      } catch (err) {
-        document.getElementById("tasks").innerHTML = `<p style="color:red;">Failed to load tasks.</p>`;
-      }
-    }
-
-    loadTasks();
-  </script>
+  <script src="tasks.js"></script>
 </body>
 </html>
