@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin UI - Task Manager</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 2rem; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+  th, td { border: 1px solid #ccc; padding: 0.5rem; text-align: left; }
+  th { background-color: #eee; }
+</style>
+</head>
+<body>
+<h1>Admin UI - Task Manager</h1>
+<table>
+  <thead>
+    <tr><th>Title</th><th>Completed</th></tr>
+  </thead>
+  <tbody id="tasksBody"></tbody>
+</table>
+
+<script>
+  async function fetchTasks() {
+    try {
+      const response = await fetch('/api/tasks');
+      const tasks = await response.json();
+      const tbody = document.getElementById('tasksBody');
+      tbody.innerHTML = '';
+
+      tasks.forEach(task => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${task.title}</td>
+          <td>${task.completed ? '✔️' : '❌'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch (error) {
+      alert('Failed to load tasks: ' + error);
+    }
+  }
+
+  fetchTasks();
+</script>
+</body>
+</html>
