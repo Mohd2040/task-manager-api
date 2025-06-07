@@ -16,6 +16,7 @@ app.use(express.json()); // تحليل البيانات المرسلة بـ JSON
 // ✅ تعريف مسارات API بعد تحميل ملفات المسارات
 //   هذه هي الإضافة المهمة، بحيث يتم تحميل مسارات المهام API من ملف خارجي 'routes/tasks.js'
 app.use("/api/tasks", require("./routes/tasks"));
+app.use("/api/auth", require("./routes/auth"));
 
 // ✅ الاتصال بـ MongoDB
 mongoose.connect(MONGO_URI, {
@@ -33,4 +34,4 @@ mongoose.connect(MONGO_URI, {
 .catch(err => {
   console.error("❌ Failed to connect to MongoDB", err);
 });
-app.use("/api/auth", require("./routes/auth"));
+
