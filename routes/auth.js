@@ -14,9 +14,7 @@ router.post("/register", async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ error: "Email already in use" });
 
-    // تشفير كلمة المرور
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    // ت كلمة المرور
     const newUser = new User({
       username,
       email,
