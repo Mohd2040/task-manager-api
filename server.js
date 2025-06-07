@@ -33,3 +33,4 @@ mongoose.connect(MONGO_URI, {
 .catch(err => {
   console.error("❌ Failed to connect to MongoDB", err);
 });
+app.use("/api/auth", require("./routes/auth"));
