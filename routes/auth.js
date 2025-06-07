@@ -1,57 +1,72 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const auth = require("../middleware/auth");
+const Task = require("../models/Task");
 
-const User = require("../models/User");
-
-// 🔐 POST /api/auth/register - Register new user
-router.post("/register", async (req, res) => {
+// GET /api/tasks - جلب جميع مهام المستخدم
+router.get("/", auth, async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-
-    // تحقق من وجود المستخدم مسبقًا
-    const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ error: "Email already in use" });
-
-    // ت كلمة المرور
-    const newUser = new User({
-      username,
-      email,
-      password
-    });
-
-    await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
-
+    const tasks = await Task.find({ user: req.user.id }).sort({ createdAt: -1 });
+    res.json(tasks);
   } catch (err) {
-    console.error("Registration error:", err); // ✅ اطبع الخطأ في console
-    res.status(500).json({ error: "Registration failed" });
+    res.status(500).json({ error: "Failed to fetch tasks" });
   }
 });
 
-// 🔐 POST /api/auth/login - Login user
-router.post("/login", async (req, res) => {
+// POST /api/tasks - إضافة مهمة جديدة
+router.post("/", auth, async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { title, description, type, priority } = req.body;
+    if (!title) return res.status(400).json({ error: "Title is required" });
 
-    // تحقق من وجود المستخدم
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: "Invalid credentials" });
-
-    // تحقق من كلمة المرور
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: "Invalid credentials" });
-
-    // توليد JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+    const newTask = new Task({
+      user: req.user.id,
+      title,
+      description,
+      type,
+      priority
     });
 
-    res.json({ token, user: { id: user._id, username: user.username, email: user.email } });
-
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
   } catch (err) {
-    res.status(500).json({ error: "Login failed" });
+    res.status(500).json({ error: "Failed to create task" });
+  }
+});
+
+// PUT /api/tasks/:id - تعديل مهمة موجودة
+router.put("/:id", auth, async (req, res) => {
+  try {
+    const { title, description, type, priority } = req.body;
+    const task = await Task.findById(req.params.id);
+
+    if (!task) return res.status(404).json({ error: "Task not found" });
+    if (task.user.toString() !== req.user.id) return res.status(401).json({ error: "Not authorized" });
+
+    task.title = title ?? task.title;
+    task.description = description ?? task.description;
+    task.type = type ?? task.type;
+    task.priority = priority ?? task.priority;
+
+    const updatedTask = await task.save();
+    res.json(updatedTask);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update task" });
+  }
+});
+
+// DELETE /api/tasks/:id - حذف مهمة
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.id);
+
+    if (!task) return res.status(404).json({ error: "Task not found" });
+    if (task.user.toString() !== req.user.id) return res.status(401).json({ error: "Not authorized" });
+
+    await task.remove();
+    res.json({ message: "Task deleted" });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete task" });
   }
 });
 
