@@ -1,59 +1,51 @@
-# 🧩 Task Manager API
+# ✅ Task Manager Web App
 
-A simple, production-ready RESTful API for managing tasks, built with **Node.js**, **Express**, and **MongoDB**.  
-It features complete **CI/CD automation** using **GitHub Actions** and **Heroku Docker deployments**.
-
-> ✅ Ready for real-world use and deployment
+A full-stack **Task Management** web app built with **Node.js**, **Express**, **MongoDB**, and plain **HTML/CSS/JS**.  
+This project was created as part of my **DevOps learning journey**, with a focus on full integration between backend, frontend, and deployment.
 
 ---
 
-## 📦 Features
+## ✨ Features
 
-- 🔧 REST API with full CRUD operations
-- 🚀 Auto deployment with GitHub Actions
-- 🐳 Containerized with Docker
-- ☁️ Hosted on Heroku (via Heroku Container Registry)
-- 🌐 MongoDB Atlas integration
-- ⚙️ Environment variables support
-- 🧪 Clean, modular code ready for testing and extension
+- 🔐 JWT-based authentication system
+- 👤 Register & Login with validation
+- 🧠 User-specific task isolation
+- 📋 Manage tasks:
+  - ➕ Add
+  - ✏️ Edit
+  - 🗑️ Delete
+  - ✅ Mark as Complete
+  - 📄 View Details
+- 🌐 Responsive UI (works on desktop & mobile)
+- 🔁 Tasks update dynamically without refresh
+- 🚪 Secure logout
+- 🔒 Session stored using JWT & `localStorage`
 
 ---
 
-## 🚀 Live Deployment
+💡 DevOps Practices
+🐳 Docker-compatible structure
 
-🔗 **URL:** `https://task-manager-api1-7676321afe5a.herokuapp.com/`
----
+🔁 CI/CD using GitHub Actions
+
+📦 Deployment via Heroku or CapRover
+
+🔐 Environment config via .env
+
+🌐 MongoDB Atlas integration
 
 ## 🛠️ Tech Stack
 
-| Tool          | Purpose                             |
-|---------------|-------------------------------------|
-| Node.js       | Runtime environment                 |
-| Express.js    | Web framework                       |
-| MongoDB Atlas | Cloud database                      |
-| Mongoose      | ODM for MongoDB                     |
-| Docker        | Containerization                    |
-| Heroku        | Hosting platform (using Docker)     |
-| GitHub Actions| CI/CD pipeline                      |
+| Frontend | Backend  | Database | DevOps / Tools |
+|----------|----------|----------|----------------|
+| HTML/CSS | Node.js  | MongoDB  | GitHub Actions |
+| JavaScript | Express.js | Mongoose | CapRover / Heroku |
+| Bootstrap | JWT Auth | Mongo Atlas | GitHub Projects |
 
 ---
 
-## 🧪 API Endpoints
+## 🧪 Live Demo
 
-| Method | Endpoint           | Description          |
-|--------|--------------------|----------------------|
-| GET    | `/api/tasks`       | Get all tasks        |
-| POST   | `/api/tasks`       | Create new task      |
-| GET    | `/api/tasks/:id`   | Get task by ID       |
-| PUT    | `/api/tasks/:id`   | Update task by ID    |
-| DELETE | `/api/tasks/:id`   | Delete task by ID    |
+🔗 Visit: [https://task-manager-api1-7676321afe5a.herokuapp.com](https://task-manager-api1-7676321afe5a.herokuapp.com)
 
----
-
-## 🧰 Getting Started (Locally)
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/Mohd2040/task-manager-api.git
-cd task-manager-api
+Demo credentials:
