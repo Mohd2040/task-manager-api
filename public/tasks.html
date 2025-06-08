@@ -2,38 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tasks Manager</title>
+  <title>My Tasks</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { text-align: center; }
-    #task-form { margin-bottom: 20px; }
-    #tasks-list { list-style: none; padding: 0; }
-    #tasks-list li { padding: 10px; border-bottom: 1px solid #ccc; }
-    .task-title { font-weight: bold; }
-    .task-desc { font-style: italic; }
-    button { margin-left: 10px; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    .header .user-info {
+      line-height: 1.2;
+    }
+    .logout-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    h3 {
+      margin-top: 30px;
+    }
+    form input, form select {
+      padding: 10px;
+      margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    form button {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 12px;
+      background: #f9f9f9;
+      margin: 8px 0;
+      border-left: 5px solid #3498db;
+    }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <div class="user-info">
+        <h2>Welcome, <span id="username"></span></h2>
+        <p>Email: <span id="email"></span></p>
+      </div>
+      <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+    </div>
 
-  <h1>My Tasks</h1>
+    <h3>Your Tasks</h3>
+    <ul id="taskList"></ul>
 
-  <!-- Form to add a new task -->
-  <form id="task-form">
-    <input type="text" id="title" placeholder="Task title" required />
-    <input type="text" id="description" placeholder="Task description" required />
-    <select id="priority" required>
-      <option value="" disabled selected>Priority</option>
-      <option value="Low">Low</option>
-      <option value="Medium">Medium</option>
-      <option value="High">High</option>
-    </select>
-    <button type="submit">Add Task</button>
-  </form>
-
-  <!-- List of tasks -->
-  <ul id="tasks-list"></ul>
+    <h3>Add New Task</h3>
+    <form id="taskForm">
+      <input type="text" id="title" placeholder="Task Title" required />
+      <input type="text" id="description" placeholder="Description" required />
+      <select id="type" required>
+        <option value="">Select Type</option>
+        <option value="personal">Personal</option>
+        <option value="work">Work</option>
+      </select>
+      <select id="priority" required>
+        <option value="">Select Priority</option>
+        <option value="low">Low</option>
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+      </select>
+      <button type="submit">➕ Add Task</button>
+    </form>
+  </div>
 
   <script src="tasks.js"></script>
 </body>
