@@ -40,7 +40,7 @@ function createTaskElement(task) {
   div.className = `task-item ${task.completed ? "completed" : ""}`;
 
   div.innerHTML = `
-    <h5>${task.title}</h5>
+    <h5>${task.title} ${task.completed ? "✅" : ""}</h5>
     <p class="task-details">
       <strong>Type:</strong> ${task.type} |
       <strong>Priority:</strong> ${task.priority}
