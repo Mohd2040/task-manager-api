@@ -1,77 +1,152 @@
-const apiUrl = "https://your-heroku-app.herokuapp.com/api/tasks"; // غيّر هذا للرابط الصحيح عندك
+const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
 
-const taskForm = document.getElementById("task-form");
-const tasksList = document.getElementById("tasks-list");
-
-// تحميل المهام وعرضها
-async function loadTasks() {
-  try {
-    const res = await fetch(apiUrl);
-    const tasks = await res.json();
-
-    tasksList.innerHTML = ""; // مسح القائمة قبل العرض
-
-    tasks.forEach(task => {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span class="task-title">${task.title}</span> 
-        (<span>${task.priority}</span>) - 
-        <span class="task-desc">${task.description}</span>
-        <button onclick="deleteTask('${task._id}')">Delete</button>
-      `;
-      tasksList.appendChild(li);
-    });
-  } catch (err) {
-    alert("Failed to load tasks.");
-    console.error(err);
-  }
+if (!token || !user) {
+  window.location.href = "/login.html";
 }
 
-// إضافة مهمة جديدة
-taskForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
+document.getElementById("username").innerText = user.username;
+document.getElementById("email").innerText = user.email;
 
-  const newTask = {
-    title: document.getElementById("title").value.trim(),
-    description: document.getElementById("description").value.trim(),
-    priority: document.getElementById("priority").value,
-  };
+const taskForm = document.getElementById("taskForm");
+const taskList = document.getElementById("taskList");
 
-  try {
-    const res = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
+// ✅ تحميل المهام
+function loadTasks() {
+  fetch("/api/tasks", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((tasks) => {
+      taskList.innerHTML = "";
+      tasks.forEach((task) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong style="cursor:pointer;" onclick="showDetails('${task._id}')">
+            ${task.completed ? `<s>${task.title}</s>` : task.title}
+          </strong>
+          - <em>${task.priority}</em>
+          <div style="float:right;">
+            <button onclick="markComplete('${task._id}', ${task.completed})">✅</button>
+            <button onclick="editTask('${task._id}')">✏️</button>
+            <button onclick="deleteTask('${task._id}')">🗑️</button>
+          </div>
+        `;
+        taskList.appendChild(li);
+      });
+    })
+    .catch(() => {
+      alert("❌ Failed to load tasks.");
     });
+}
 
-    if (!res.ok) throw new Error("Failed to add task.");
+loadTasks();
 
-    // تنظيف الحقول
-    taskForm.reset();
-    loadTasks(); // إعادة تحميل المهام
-  } catch (err) {
-    alert(err.message);
+// ✅ إضافة مهمة جديدة
+taskForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const title = this.title.value.trim();
+  const description = this.description.value.trim();
+  const type = this.type.value.trim();
+  const priority = this.priority.value.trim();
+
+  if (!title || !description || !type || !priority) {
+    return alert("❌ Please fill all fields.");
   }
+
+  fetch("/api/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ title, description, type, priority }),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      taskForm.reset();
+      loadTasks();
+    })
+    .catch(() => {
+      alert("❌ Failed to add task.");
+    });
 });
 
-// حذف مهمة
-async function deleteTask(id) {
+// ✅ حذف مهمة
+function deleteTask(id) {
   if (!confirm("Are you sure you want to delete this task?")) return;
 
-  try {
-    const res = await fetch(`${apiUrl}/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!res.ok) throw new Error("Failed to delete task.");
-
-    loadTasks(); // تحديث القائمة بعد الحذف
-  } catch (err) {
-    alert(err.message);
-  }
+  fetch(`/api/tasks/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then(() => loadTasks())
+    .catch(() => alert("❌ Failed to delete task."));
 }
 
-// تحميل المهام عند فتح الصفحة
-loadTasks();
+// ✅ تعديل مهمة
+function editTask(id) {
+  const title = prompt("Enter new title:");
+  const description = prompt("Enter new description:");
+  const type = prompt("Enter new type (personal/work):");
+  const priority = prompt("Enter new priority (low/normal/high):");
+
+  if (!title || !description || !type || !priority) {
+    return alert("❌ All fields are required.");
+  }
+
+  fetch(`/api/tasks/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ title, description, type, priority }),
+  })
+    .then((res) => res.json())
+    .then(() => loadTasks())
+    .catch(() => alert("❌ Failed to edit task."));
+}
+
+// ✅ عرض تفاصيل المهمة
+function showDetails(id) {
+  fetch(`/api/tasks/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.json())
+    .then((task) => {
+      alert(
+        `📝 ${task.title}\n📄 ${task.description}\n🔢 Type: ${task.type}\n🚦 Priority: ${task.priority}\n✅ Completed: ${task.completed ? "Yes" : "No"}`
+      );
+    })
+    .catch(() => alert("❌ Failed to load details."));
+}
+
+// ✅ تغيير حالة الاكتمال
+function markComplete(id, currentStatus) {
+  fetch(`/api/tasks/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ completed: !currentStatus }),
+  })
+    .then((res) => res.json())
+    .then(() => loadTasks())
+    .catch(() => alert("❌ Failed to update task."));
+}
+
+// ✅ تسجيل الخروج
+document.getElementById("logout").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  window.location.href = "/login.html";
+});
