@@ -1,3 +1,4 @@
+// models/Task.js
 const mongoose = require("mongoose");
 
 const taskSchema = new mongoose.Schema({
@@ -24,6 +25,11 @@ const taskSchema = new mongoose.Schema({
     type: String,
     enum: ["low", "medium", "high"],
     default: "medium"
+  },
+  status: {
+    type: String,
+    enum: ["not_started", "in_progress", "completed"],
+    default: "not_started"
   }
 }, { timestamps: true });
 
