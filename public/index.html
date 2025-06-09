@@ -3,102 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Task Manager API | Node.js + MongoDB</title>
-  <meta name="description" content="A simple REST API to manage tasks built with Node.js, Express, and MongoDB. View API endpoints and project details.">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <title>Task Manager App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
     body {
-      background-color: #f8f9fa;
       font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
     }
-    .container {
-      padding-top: 40px;
+    .hero {
+      padding: 60px 0;
+      text-align: center;
     }
-    h1 {
-      color: #0d6efd;
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #333;
     }
-    table i {
-      font-size: 18px;
-      color: #198754;
+    .hero p {
+      font-size: 1.2rem;
+      color: #555;
     }
-    pre {
-      background-color: #e9ecef;
-      padding: 1rem;
-      border-radius: 0.5rem;
+    .btn-group {
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-custom {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      margin: 5px;
+      border-radius: 30px;
+    }
+    .section-title {
+      font-weight: bold;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      color: #2c3e50;
     }
     footer {
+      background: #2c3e50;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
       margin-top: 50px;
-      color: #6c757d;
+    }
+    .tech-icons i {
+      font-size: 2rem;
+      margin: 10px;
+      color: #007bff;
+    }
+    .img-preview {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 30px;
+    }
+    .animated-section {
+      transition: all 0.3s ease-in-out;
+    }
+    .animated-section:hover {
+      transform: translateY(-5px);
     }
   </style>
 </head>
 <body>
-  <div class="container text-center">
-    <h1>🧩 Task Manager API</h1>
-    <p class="lead">A simple REST API to manage your tasks – powered by Node.js, Express, and MongoDB.</p>
-    
-    <hr />
-    <h1>📝 Task Manager</h1>
-    <p>Welcome to your simple task management system</p>
 
-    <a href="login.html"><button class="btn login">🔐 Login</button></a>
-    <a href="register.html"><button class="btn register">🆕 Register</button></a>
-    
-    <hr />
-    
-    <h3 class="mt-5">🧪 API Endpoints</h3>
-    <table class="table table-bordered table-hover mt-3">
-      <thead class="table-dark">
-        <tr>
-          <th>Method</th>
-          <th>Endpoint</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><i class="bi bi-box-arrow-in-down-right text-primary"></i> GET</td>
-          <td>/api/tasks</td>
-          <td>Fetch all tasks</td>
-        </tr>
-        <tr>
-          <td><i class="bi bi-plus-circle text-success"></i> POST</td>
-          <td>/api/tasks</td>
-          <td>Create a new task</td>
-        </tr>
-        <tr>
-          <td><i class="bi bi-search text-info"></i> GET</td>
-          <td>/api/tasks/:id</td>
-          <td>Fetch a task by ID</td>
-        </tr>
-        <tr>
-          <td><i class="bi bi-pencil-square text-warning"></i> PUT</td>
-          <td>/api/tasks/:id</td>
-          <td>Update task by ID</td>
-        </tr>
-        <tr>
-          <td><i class="bi bi-trash text-danger"></i> DELETE</td>
-          <td>/api/tasks/:id</td>
-          <td>Delete task by ID</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="container hero">
+    <h1>🚀 Task Manager App</h1>
+    <p>Streamline your workflow and manage your daily tasks with ease using this lightweight yet powerful web application.</p>
 
-    <div class="mt-5 text-start">
-      <h4>📦 Example Request</h4>
-      <pre><code>curl https://task-manager-api1-7676321afe5a.herokuapp.com/</code></pre>
-    </div>
-
-    <p class="mt-4 text-center">
-      <a href="https://github.com/Mohd2040/task-manager-api" target="_blank" class="btn btn-dark">
-        View on GitHub
+    <div class="d-flex btn-group">
+      <a href="register.html" target="_blank" class="btn btn-success btn-custom">
+        <i class="fas fa-user-plus"></i> Register
       </a>
-    </p>
-
-    <footer class="text-center">
-      © 2025 – Built by Mohamed AbuSHallouf | <a href="https://github.com/Mohd2040" target="_blank">GitHub</a>
-    </footer>
+      <a href="login.html" target="_blank" class="btn btn-primary btn-custom">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+    </div>
   </div>
+
+  <div class="container">
+    <h3 class="section-title">🎯 Project Objectives</h3>
+    <ul class="animated-section">
+      <li>Design and develop a dynamic task management platform.</li>
+      <li>Apply real-world DevOps concepts including CI/CD, Docker, and cloud deployment.</li>
+      <li>Practice full-stack development using Node.js, Express, MongoDB, and Bootstrap.</li>
+    </ul>
+
+    <h3 class="section-title">💼 Skills & Experience Gained</h3>
+    <ul class="animated-section">
+      <li>🛠 Git & GitHub Workflow</li>
+      <li>🔁 GitHub Actions for CI/CD Pipelines</li>
+      <li>🔧 RESTful APIs with Node.js</li>
+      <li>🐳 Docker & Containerization</li>
+      <li>☁️ Cloud Hosting (Heroku)</li>
+      <li>📦 MongoDB Atlas Integration</li>
+      <li>✏️ Bootstrap Frontend Design</li>
+      <li>🔒 Secure Auth with JWT & Middleware</li>
+    </ul>
+
+    <h3 class="section-title">🛠️ Technologies Used</h3>
+    <div class="tech-icons text-center animated-section">
+      <i class="fab fa-node-js"></i>
+      <i class="fab fa-js-square"></i>
+      <i class="fab fa-github"></i>
+      <i class="fab fa-docker"></i>
+      <i class="fas fa-database"></i>
+      <i class="fas fa-server"></i>
+      <i class="fas fa-lock"></i>
+
+  <footer>
+    <p>
+      Crafted by 
+      <a href="https://upwork.com/freelancers/mohammeda857" target="_blank" class="text-light">Mohamed AbuShallouf</a> |
+      <a href="https://www.linkedin.com/in/mohdabushalloufdevops2040/" target="_blank" class="text-light">LinkedIn</a> |
+      <a href="https://github.com/Mohd2040/task-manager-api" target="_blank" class="text-light">GitHub</a>
+    </p>
+    <p>© 2025 – All rights reserved</p>
+  </footer>
+
 </body>
 </html>
