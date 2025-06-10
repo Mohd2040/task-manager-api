@@ -73,17 +73,18 @@
           <option value="High">High</option>
         </select>
       </div>
-
+      <div id="messageBox" class="mt-3"></div>
       <button type="submit" class="btn btn-primary w-100">
         <i class="fas fa-user-plus"></i> Create Account & Add Task
       </button>
     </form>
+    
   </div>
 
   <script>
     document.getElementById('registerForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-
+      const messageBox = document.getElementById('messageBox');
       const payload = {
         username: document.getElementById('name').value,
         email: document.getElementById('email').value,
@@ -105,15 +106,18 @@
 
         const result = await res.json();
         if (res.ok) {
-          alert('Registered successfully! Redirecting...');
+          showMessage("Registered successfully! Redirecting...", "success");
           window.location.href = 'login.html';
         } else {
-          alert(result.error || 'Registration failed.');
+          showMessage("Registration failed.", "danger");
         }
       } catch (err) {
         console.error(err);
-        alert('An error occurred.');
+        showMessage("An error occurred.","danger");
       }
+    function showMessage(msg, type) {
+        messageBox.innerHTML = `<div class="alert alert-${type}" role="alert">${msg}</div>`;
+    }
     });
   </script>
 
