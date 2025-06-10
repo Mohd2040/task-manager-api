@@ -47,35 +47,48 @@
     </form>
   </div>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+<script>
+  document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const messageBox = document.getElementById('messageBox');
 
-      try {
-        const res = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
 
-        const result = await res.json();
+      const result = await res.json();
 
-        if (res.ok) {
-          sessionStorage.setItem('token', result.token); // ✅ حفظ التوكن
-          alert('Login successful! Redirecting...');
-          window.location.href = 'tasks.html'; // ✅ الانتقال لصفحة المهام
-        } else {
-          alert(result.error || 'Login failed.');
-        }
-      } catch (err) {
-        console.error(err);
-        alert('An error occurred.');
+      if (res.ok) {
+        sessionStorage.setItem('token', result.token);
+        sessionStorage.setItem('name', result.name);
+        sessionStorage.setItem('email', result.email);
+
+        showMessage("Login successful! Redirecting...", "success");
+
+        setTimeout(() => {
+          window.location.href = "tasks.html";
+        }, 1500);
+
+      } else {
+        showMessage(result.message || "Login failed", "danger");
       }
-    });
-  </script>
+    } catch (err) {
+      console.error(err);
+      showMessage("An error occurred during login", "danger");
+    }
+
+    function showMessage(msg, type) {
+      messageBox.innerHTML = `<div class="alert alert-${type}" role="alert">${msg}</div>`;
+    }
+  });
+</script>
+
 
 </body>
 </html>
